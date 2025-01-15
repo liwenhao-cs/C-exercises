@@ -7,7 +7,6 @@ int main() {
 
   counting = 0;
   while ((n = getchar()) != EOF) {
-    
     if (n == '\n' || n == '\t' || n == ' ') {
       ++counting;
     }
@@ -16,4 +15,4 @@ int main() {
   return 0;
 }
 
-
+// Done.
