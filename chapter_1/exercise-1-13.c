@@ -2,49 +2,52 @@
 
 #include <stdio.h>
 
-int main() {
-	int c, i, nwhite, nother;
-	int ndigit[10];
+#define IN 1
+#define OUT 0
+#define MAX_LENGTH 100
 
-	nwhite = nother = 0;
-	for (i = 0; i < 10; ++i) {
-		ndigit[i] = 0;
+int main() {
+	
+	// ==========defining variables:
+	
+	int word_length_array[MAX_LENGTH]; // An array has an index (address) and a value for that index.
+	int input, word_length, word_length_limit, state;
+	int i, j; 
+
+	input = word_length = word_length_limit = 0;
+	state = OUT;
+	
+	// ==========initalize:
+	
+	for (i = 0; i < MAX_LENGTH; ++i) {
+		word_length_array[i] = 0; // In this case, this for loop is used to set the value '0' to all addresses.
 	}
 
-	while ((c = getchar()) != EOF) {
-		if (c >= '0' && c <= '9') {
-			++ndigit[c-'0'];
-		} else if (c == ' ' || c == '\n' || c == '\t') {
-			++nwhite;
+	while ((input = getchar()) != EOF) {
+		if (input == ' ' || input == '\n' || input == '\t') {
+			state = OUT;
+			if (word_length > 0 && word_length < MAX_LENGTH) {
+				if (word_length > word_length_limit) 
+						word_length_limit = word_length;
+				word_length_array[word_length]++;
+			}
+			word_length = 0;
 		} else {
-			++nother;
+			state = IN;
+			word_length++;
 		}
 	}
-	printf("\thistogram\t\n");
-	printf("\n");
-	for (i = 0; i < 10; ++i) {
-		int bar[10];
-		printf("%d:\t ", i, ndigit[i]);
-		for (int p = 0; p != ndigit[i]; ++p) {
-			bar[p] = ndigit[i];
-			printf("=", bar[p]);
+	
+	for (i = 0; i < MAX_LENGTH; ++i) {
+		printf("%d: ", i);
+		
+		for (j = 0; j < word_length_array[i]; ++j) {
+			printf("*");
 		}
 		printf("\n");
 	}
 
-	printf("nwhite:  ");
-	for (int j = 0; j != nwhite; ++j) {
-		printf("=");
-	}
-	printf("\n");
-
-	printf("nother:  ");
-	for (int j = 0; j != nother; ++j) {
-		printf("=");
-	}
-	printf("\n");
 	return 0;
-}
+}	
 
 // Done.
-
